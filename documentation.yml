@@ -1,0 +1,386 @@
+openapi: '3.0.3'
+info:
+  title: Project management system
+  version: '1.0'
+servers:
+  - url: http://127.0.0.1:8000/api
+paths: 
+  /addAvatar/{id}:
+    post:
+      summary: Добавление аватарки
+      tags:
+        - Добавление аватарки
+      requestBody:
+        required: false
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required:
+                - avatar
+                - id
+              properties:
+                avatar:
+                    type: string
+                    format: binary
+                    description: Загрузите изображение
+                id:
+                  type: integer
+                  description: Идентификатор пользователя
+                  example: 1
+      responses:
+        200:
+          description: Успешно
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  msg:
+                    type: string
+                    example: Успешно
+                    
+  /getTaskForProject:
+    get:
+      summary: Получить количество активных задач для каждого проекта
+      tags:
+        - Запросы связанные с проектом
+      responses:
+        '200':
+          description: Успешный запрос
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  msg:
+                    type: string
+                    example: Успешно
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        projectname:
+                          type: string
+                          example: Название проекта
+                        activeCount:
+                          type: integer
+                          example: 5
+
+  /hightPriorityTasks:
+    get:
+      summary: Получить задачи с высоким приоритетом
+      tags:
+        - Запросы связанные с проектом
+      responses:
+        '200':
+          description: Успешный запрос
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  msg:
+                    type: string
+                    example: Успешно
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                          example: 1
+                        name:
+                          type: string
+                          example: Название задачи
+                        priority:
+                          type: string
+                          example: Высокий
+
+  /getCompletedTaskForProject:
+    get:
+      summary: Получить количество завершенных задач для каждого проекта
+      tags:
+        - Запросы связанные с проектом
+      responses:
+        '200':
+          description: Успешный запрос
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  msg:
+                    type: string
+                    example: Успешно
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        projectname:
+                          type: string
+                          example: Название проекта
+                        completedTasks:
+                          type: integer
+                          example: 3
+
+  /getTeamForProject/{id}:
+    get:
+      summary: Получить команду проекта по его идентификатору
+      tags:
+        - Запросы связанные с проектом
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+          description: Идентификатор проекта
+      responses:
+        '200':
+          description: Успешный запрос
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  msg:
+                    type: string
+                    example: Успешно
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                          example: 1
+                        projectname:
+                          type: string
+                          example: Название проекта
+                        users:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              id:
+                                type: integer
+                                example: 1
+                              name:
+                                type: string
+                                example: Имя пользователя
+                              avatar:
+                                type: string
+                                nullable: true
+                                example: null
+                              email:
+                                type: string
+                                example: email@example.net
+                              email_verified_at:
+                                type: string
+                                format: date-time
+                                example: "2024-07-03T07:56:53.000000Z"
+                              role_id:
+                                type: integer
+                                example: 2
+                              created_at:
+                                type: string
+                                format: date-time
+                                example: "2024-07-03T07:56:53.000000Z"
+                              updated_at:
+                                type: string
+                                format: date-time
+                                example: "2024-07-03T07:56:53.000000Z"
+
+  /getTeamForTask/{id}:
+    get:
+      summary: Получить команду задачи по её идентификатору
+      tags:
+        - Запросы связанные с проектом
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+          description: Идентификатор задачи
+      responses:
+        '200':
+          description: Успешный запрос
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  msg:
+                    type: string
+                    example: Успешно
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                          example: 1
+                        taskname:
+                          type: string
+                          example: Название таски
+                        users:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              id:
+                                type: integer
+                                example: 1
+                              name:
+                                type: string
+                                example: Имя пользователя
+                              avatar:
+                                type: string
+                                nullable: true
+                                example: null
+                              email:
+                                type: string
+                                example: email@example.net
+                              email_verified_at:
+                                type: string
+                                format: date-time
+                                example: "2024-07-03T07:56:53.000000Z"
+                              role_id:
+                                type: integer
+                                example: 2
+                              created_at:
+                                type: string
+                                format: date-time
+                                example: "2024-07-03T07:56:53.000000Z"
+                              updated_at:
+                                type: string
+                                format: date-time
+                                example: "2024-07-03T07:56:53.000000Z"
+  /getTasksForConcreteUser/{id}:
+    get:
+      summary: Получить задачи и проекты для конкретного пользователя
+      tags:
+        - Запросы связанные с пользователями
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+          description: Идентификатор пользователя
+      responses:
+        '200':
+          description: Успешный запрос
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  msg:
+                    type: string
+                    example: Успешно
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                          example: 1
+                        pinned_date:
+                          type: string
+                          format: date-time
+                          example: "2024-07-03T07:56:53.000000Z"
+                        task:
+                          type: object
+                          properties:
+                            id:
+                              type: integer
+                              example: 1
+                            name:
+                              type: string
+                              example: Название таски
+                            description:
+                              type: string
+                              example: Описание таски.
+                            start_date:
+                              type: string
+                              format: date
+                              example: "1987-12-20"
+                            end_date:
+                              type: string
+                              format: date
+                              example: "2009-01-05"
+                            status:
+                              type: string
+                              example: Статус таски
+                            priority:
+                              type: string
+                              example: Приоритет
+                        project:
+                          type: object
+                          properties:
+                            id:
+                              type: integer
+                              example: 4
+                            name:
+                              type: string
+                              example: Название проекта
+                            description:
+                              type: string
+                              example: Описание проекта
+                            start_date:
+                              type: string
+                              format: date
+                              example: "2021-02-01"
+                            end_date:
+                              type: string
+                              format: date
+                              example: "1990-02-07"
+                            status:
+                              type: string
+                              example: Статус проекта
+                            created_at:
+                              type: string
+                              format: date-time
+                              example: "2024-07-03T07:56:53.000000Z"
+                            updated_at:
+                              type: string
+                              format: date-time
+                              example: "2024-07-03T07:56:53.000000Z"
+  /getCountTaskForUser:
+    get:
+      summary: Получить количество задач для каждого пользователя
+      tags:
+        - Запросы связанные с пользователями
+      responses:
+        '200':
+          description: Успешный запрос
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  msg:
+                    type: string
+                    example: успешно
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                          example: 1
+                        username:
+                          type: string
+                          example: Имя пользователя
+                        counts:
+                          type: integer
+                          example: 10
